@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Tarefa; // Importe o model Tarefa
+use App\Models\Tarefa;
 
 class TarefaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tarefas = Tarefa::orderBy('concluida')->get(); // Exibe as tarefas ordenadas
+        // Implementação da pesquisa
+        $query = Tarefa::query();
+
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where('titulo', 'like', '%' . $request->search . '%');
+        }
+
+        // Ordena tarefas: pendentes primeiro, concluídas por último
+        $tarefas = $query->orderBy('concluida')->get();
+
         return view('tarefas.index', compact('tarefas'));
     }
 
@@ -38,7 +47,8 @@ class TarefaController extends Controller
             'descricao' => $request->descricao,
         ]);
 
-        return redirect()->route('tarefas.index')->with('success', 'Tarefa criada com sucesso!');
+        return redirect()->route('tarefas.index')
+            ->with('success', 'Tarefa criada com sucesso!');
     }
 
     /**
@@ -72,10 +82,11 @@ class TarefaController extends Controller
         $tarefa->update([
             'titulo' => $request->titulo,
             'descricao' => $request->descricao,
-            'concluida' => $request->has('concluida'), // Marcar como concluída se o checkbox for marcado
+            'concluida' => $request->has('concluida'), // Verifica checkbox
         ]);
 
-        return redirect()->route('tarefas.index')->with('success', 'Tarefa atualizada com sucesso!');
+        return redirect()->route('tarefas.index')
+            ->with('success', 'Tarefa atualizada com sucesso!');
     }
 
     /**
@@ -86,6 +97,19 @@ class TarefaController extends Controller
         $tarefa = Tarefa::findOrFail($id);
         $tarefa->delete();
 
-        return redirect()->route('tarefas.index')->with('success', 'Tarefa excluída com sucesso!');
+        return redirect()->route('tarefas.index')
+            ->with('success', 'Tarefa excluída com sucesso!');
+    }
+
+    /**
+     * Marcar uma tarefa como concluída.
+     */
+    public function concluir(Tarefa $tarefa)
+    {
+        $tarefa->concluida = true;
+        $tarefa->save();
+
+        return redirect()->route('tarefas.index')
+            ->with('success', 'Tarefa concluída com sucesso!');
     }
 }

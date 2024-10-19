@@ -7,25 +7,43 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-    <h1>Lista de Tarefas</h1>
-    <form action="{{ route('tarefas.store') }}" method="POST">
-        @csrf
-        <input type="text" name="titulo" placeholder="Título" required>
-        <textarea name="descricao" placeholder="Descrição"></textarea>
-        <button type="submit">Criar Tarefa</button>
-    </form>
-    <ul>
-        @foreach($tarefas as $tarefa)
-            <li>
-                {{ $tarefa->titulo }}
-                <a href="{{ route('tarefas.edit', $tarefa->id) }}">Editar</a>
-                <form action="{{ route('tarefas.destroy', $tarefa->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Deletar</button>
-                </form>
-            </li>
-        @endforeach
-    </ul>
+    <div class="container">
+        <header>
+            <h1>Lista de Tarefas</h1>
+            <form action="{{ route('tarefas.index') }}" method="GET">
+                <input type="text" name="search" placeholder="Buscar tarefa">
+                <button type="submit">Buscar</button>
+            </form>
+        </header>
+
+        <ul>
+            @foreach($tarefas as $tarefa)
+                <li class="{{ $tarefa->concluida ? 'completed' : '' }}">
+                    <span>{{ $tarefa->titulo }}</span>
+                    <div>
+                        @if (!$tarefa->concluida)
+                            <form action="{{ route('tarefas.concluir', $tarefa) }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit">Concluir</button>
+                            </form>
+                        @endif
+                        <a href="{{ route('tarefas.edit', $tarefa->id) }}">Editar</a>
+                        <form action="{{ route('tarefas.destroy', $tarefa->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Excluir</button>
+                        </form>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
+
+        <form class="create-form" action="{{ route('tarefas.store') }}" method="POST">
+            @csrf
+            <input type="text" name="titulo" placeholder="Título da tarefa" required>
+            <textarea name="descricao" placeholder="Descrição da tarefa"></textarea>
+            <button type="submit">Adicionar Tarefa</button>
+        </form>
+    </div>
 </body>
 </html>

@@ -1,27 +1,137 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+/* Reset Básico */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Estilos Globais */
+body {
+    background-color: #f3f7f9;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
 }
 
-h1 {
+/* Container Principal */
+.container {
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabeçalho */
+header {
     text-align: center;
+    margin-bottom: 20px;
 }
 
-form {
+header h1 {
+    font-size: 2rem;
+    color: #4a90e2;
+    margin-bottom: 10px;
+}
+
+header form {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    gap: 10px;
 }
 
-input, textarea, button {
-    margin: 5px;
+header input {
+    flex: 1;
     padding: 10px;
-    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
 }
 
+header button {
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+header button:hover {
+    background-color: #357ab7;
+}
+
+/* Lista de Tarefas */
 ul {
     list-style: none;
+    margin-top: 20px;
     padding: 0;
+}
+
+li {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+li.completed {
+    text-decoration: line-through;
+    color: #777;
+}
+
+li form {
+    display: inline;
+}
+
+li button {
+    background: none;
+    border: none;
+    color: #4a90e2;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+li button:hover {
+    color: #357ab7;
+}
+
+/* Formulário de Criação */
+.create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.create-form input,
+.create-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.create-form button {
+    padding: 10px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.create-form button:hover {
+    background-color: #357ab7;
 }
