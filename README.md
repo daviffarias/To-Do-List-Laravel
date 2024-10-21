@@ -17,7 +17,10 @@ cd todo-list
 
 Instale as dependências do Laravel:  
 composer install  
-   
+
+Iniciando Servidor:
+php artisan serve
+
 Acesse a aplicação no navegador:  
 Abra http://127.0.0.1:8000
 
